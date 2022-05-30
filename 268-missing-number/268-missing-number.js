@@ -3,11 +3,10 @@
  * @return {number}
  */
 var missingNumber = function(nums) {
-    let n = nums.length;
-    while (n > -1) {
-        if (!nums.includes(n)) {
-            return n;
-        }
-        n--;
-    }
+    let res = nums.length;
+	for (let i = 0; i < nums.length; i++) {
+		res = res ^ i ^ nums[i];
+	}
+
+	return res;
 };
