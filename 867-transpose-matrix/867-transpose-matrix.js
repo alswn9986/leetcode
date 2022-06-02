@@ -3,13 +3,10 @@
  * @return {number[][]}
  */
 var transpose = function(matrix) {
-    let width = matrix[0].length;
-    let height = matrix.length;
     let arr = new Array();
-    
-    for (let i = 0; i < width; i ++) {
+    for (let i = 0; i < matrix[0].length; i ++) {
         let tempArr = new Array();
-        for (let j = 0; j < height; j++) {
+        for (let j = 0; j < matrix.length; j++) {
             tempArr.push(matrix[j][i]);
         }
         arr.push(tempArr);
