@@ -7,7 +7,7 @@ var minimumTotal = function(triangle) {
     
     for (let i = triangle.length - 2; i >= 0; i--) {
         for (let j = 0; j < triangle.length; j++) {
-            d[j] = triangle[i][j] + Math.min(d[j],d[j + 1]);
+            d[j] = triangle[i][j] + Math.min(d[j], d[j + 1]);
         }
     }
     
