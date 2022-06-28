@@ -13,7 +13,7 @@ var minDeletions = function(s) {
     
     arr.sort((a, b) => b - a)
     
-    for(let i=1; i<26; i++){
+    for (let i = 1; i < 26; i++) {
         while (arr[i] && arr[i] >= arr[i-1]) {
             arr[i]--
             res++
