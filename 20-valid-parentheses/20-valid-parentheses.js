@@ -2,26 +2,17 @@
  * @param {string} s
  * @return {boolean}
  */
-var isValid = function(s) {
-    const temp = {
-        '(' : ')',
-        '{' : '}',
-        '[' : ']'
-    };
-    const stack = [];
-    const keys = Object.keys(temp);
-    for (let i = 0; i< s.length; i++) {
-        if(keys.includes(s[i])) {
-            stack.push(s[i]);
-        }
-        else {
-            if (temp[stack[stack.length-1]] === s[i]) {
-                stack.pop();
-            }
-            else {
-                return false;
-            }
-        }
-    };      
-    return !stack.length;
-}
+var isValid = function (s) {
+  const opener = { ')': '(', ']': '[', '}': '{' };
+  const closerFound = [];
+
+  for (let i = s.length - 1; i >= 0; i--) {
+    if (s[i] === ')' || s[i] === ']' || s[i] === '}') {
+      closerFound.push(s[i]);
+    } else if (s[i] !== opener[closerFound.pop()]) {
+      return false;
+    }
+  }
+
+  return closerFound.length === 0;
+};
