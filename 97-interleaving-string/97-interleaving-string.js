@@ -5,15 +5,19 @@
  * @return {boolean}
  */
 var isInterleave = function(s1, s2, s3) {
-    let n = s1.length + 2, m = s2.length + 2
-    if (n + m - 4 !== s3.length) return false
-    let dp = new Uint8Array(m)
-    dp[1] = 1
-    for (let i = 1; i < n; i++)
-        for (let j = 1; j < m; j++) {
-            let up = dp[j] && s1[i-2] === s3[j+i-3],
-                left = dp[j-1] && s2[j-2] === s3[j+i-3]
-            dp[j] = up || left
-        }
-    return dp[m-1]
+    	if(s1.length+s2.length!=s3.length) return false;
+    let dp=new Map();
+    return solve(0,0,0);
+    
+    function solve(idx, s1i,s2i){
+        if(idx>=s3.length && s1i>=s1.length && s2i>=s2.length) return true;
+        let key = idx+':'+s1i+':'+s2i;
+        if(dp.has(key)) return dp.get(key);
+        let rst = false;
+        if(s3[idx]==s1[s1i]) rst = rst || solve(idx+1,s1i+1,s2i);
+        if(rst ==false && s3[idx]==s2[s2i]) rst = rst || solve(idx+1,s1i,s2i+1);
+        dp.set(key,rst);
+        return rst;    
+    }
+
 };
