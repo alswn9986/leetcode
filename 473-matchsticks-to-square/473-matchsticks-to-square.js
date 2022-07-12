@@ -3,37 +3,33 @@
  * @return {boolean}
  */
 var makesquare = function(matchsticks) {
-  // sort in descending order, biggest to smallest, otherwise TLE
-  matchsticks = matchsticks.sort((a,b) => b - a) 
-  
-  let sum = matchsticks.reduce((a,b) => a + b, 0)
-  
-  if (sum % 4 != 0) {
-    return false
-  }
-  
-  const SIDE = sum / 4
-  let square = new Array(4).fill(0)
-  
-  return backtrack(0)
-  
-  // takes in i index of matchsticks
-  // returns true if can make full square
-  function backtrack(i) { 
-    if (i == matchsticks.length) {
-      return true
+    let n = matchsticks.length;
+    if (n === null || n < 4) {
+        return false;
     }
+    let sum = matchsticks.reduce((acc, curr) => acc + curr, 0);
     
-    for (let j = 0; j < 4; j++) {
-      if (square[j] + matchsticks[i] > SIDE) continue
-      
-      square[j] += matchsticks[i]
-      if (backtrack(i + 1)) {
-        return true
-      }
-      square[j] -= matchsticks[i]
+    matchsticks.sort((a, b) => a > b? -1 : 1);
+    let side = sum / 4;
+    let square = [0, 0, 0, 0];
+    
+    return dfs(0);
+    
+    function dfs(i) {
+        if (i === n) {
+            return true;
+        }
+        
+        for (let j = 0; j < square.length; j++) {
+            if (matchsticks[i] + square[j] > side) {
+                continue;
+            }
+            square[j] += matchsticks[i];
+            if (dfs(i + 1)) {
+                return true;
+            }
+            square[j] -= matchsticks[i];
+        }
+        return false;
     }
-    
-    return false
-  }
 };
