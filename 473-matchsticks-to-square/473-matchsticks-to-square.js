@@ -2,31 +2,38 @@
  * @param {number[]} matchsticks
  * @return {boolean}
  */
-const makesquare = function (nums) {
-  if (!nums.length) {
+var makesquare = function(matchsticks) {
+  // sort in descending order, biggest to smallest, otherwise TLE
+  matchsticks = matchsticks.sort((a,b) => b - a) 
+  
+  let sum = matchsticks.reduce((a,b) => a + b, 0)
+  
+  if (sum % 4 != 0) {
     return false
   }
-  const sum = nums.reduce((acc, num) => acc + num, 0)
-  const length = sum / 4
-  if (!Number.isInteger(length)) {
-    return false
-  }
-  nums.sort((a, b) => b - a)
-  const sums = new Array(4).fill(0)
-  const aux = (index) => {
-    if (index === nums.length) {
-      return sums.every(x => x === length)
+  
+  const SIDE = sum / 4
+  let square = new Array(4).fill(0)
+  
+  return backtrack(0)
+  
+  // takes in i index of matchsticks
+  // returns true if can make full square
+  function backtrack(i) { 
+    if (i == matchsticks.length) {
+      return true
     }
-    for (let i = 0; i < sums.length; i++) {
-      if (sums[i] + nums[index] <= length) {
-        sums[i] += nums[index]
-        if (aux(index + 1)) {
-          return true
-        }
-        sums[i] -= nums[index]
+    
+    for (let j = 0; j < 4; j++) {
+      if (square[j] + matchsticks[i] > SIDE) continue
+      
+      square[j] += matchsticks[i]
+      if (backtrack(i + 1)) {
+        return true
       }
+      square[j] -= matchsticks[i]
     }
+    
     return false
   }
-  return aux(0)
-}
+};
