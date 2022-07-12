@@ -13,8 +13,6 @@ var makesquare = function(matchsticks) {
     let side = sum / 4;
     let square = [0, 0, 0, 0];
     
-    return dfs(0);
-    
     function dfs(i) {
         if (i === n) {
             return true;
@@ -32,4 +30,6 @@ var makesquare = function(matchsticks) {
         }
         return false;
     }
+    
+    return dfs(0);
 };
