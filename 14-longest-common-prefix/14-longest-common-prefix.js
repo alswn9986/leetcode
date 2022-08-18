@@ -3,16 +3,23 @@
  * @return {string}
  */
 var longestCommonPrefix = function(strs) {
-    let result = '';
-    if(strs.length <1) return result;
-    const first = strs[0]; // flower
-    for(let i = 0; i<first.length ; i++){
-        const c = first[i]; // f, l, o, w, e, r 
-        
-        for(let j = 1;j<strs.length;j++){
-            if(strs[j][i] !== c) return result; // f"l"ow, fl"o"w
+    strs.sort((a,b) => {
+        b.length - a.length
+    })
+    
+    let prefix = strs[0]
+    for (let i=prefix.length; i>=0; i--) {
+        if (hasPrefix(prefix, strs)) {
+           return prefix 
         }
-        result += c;
+        prefix = prefix.substring(0, i);
     }
-    return result;
+    return prefix 
+    
 };
+
+const hasPrefix = (prefix, strs) => {
+    return strs.every(str => {
+        return str.substring(0,prefix.length) === prefix
+    })
+}
