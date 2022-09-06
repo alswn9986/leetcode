@@ -11,13 +11,18 @@
  * @return {TreeNode}
  */
 var pruneTree = function(root) {
-    // basic case:
-    if (root === null) return root;
-    root.left = pruneTree(root.left);
-    root.right = pruneTree(root.right);
-    // found 1 or has children then no need to remove
-    if (root.val === 1 || root.left || root.right) 
-        return root;
-    else // remove node
-        return null;
+    return containsOne(root)? root: null;
 };
+
+var containsOne = function(root) {
+    if(root===null) return false;
+    const left = containsOne(root.left);
+    const right = containsOne(root.right);
+    if(!left) {
+        root.left=null;
+    }
+    if(!right) {
+        root.right =null;
+    }
+    return root.val===1 || left || right;
+}
