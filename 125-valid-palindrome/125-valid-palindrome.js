@@ -3,6 +3,30 @@
  * @return {boolean}
  */
 var isPalindrome = function(s) {
-    s=s.replace(/[^a-z0-9]+/gi,'').toUpperCase();
-    return s===s.split('').reverse().join('');
+    let lowerS = s.toLowerCase()
+    let left = 0
+    let right = lowerS.length - 1
+    
+    const isValidChar = (char) => {
+       const isLetter = char < 'a' || char > 'z'
+       const isNumber = char < '0' || char > '9'
+       
+       return isLetter && isNumber
+    }
+    
+    while (left < right) {
+       while ((left < right) && isValidChar(lowerS[left]))
+        left++
+       while ((left < right) && isValidChar(lowerS[right]))
+        right--
+        
+        if (lowerS[right] !== lowerS[left]) {
+            return false
+        }
+        
+        left++
+        right--
+    }
+    return true
+    
 };
