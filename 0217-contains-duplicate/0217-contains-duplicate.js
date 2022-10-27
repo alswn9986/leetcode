@@ -3,14 +3,14 @@
  * @return {boolean}
  */
 var containsDuplicate = function(nums) {
-    const uniqueElements = new Set(nums);
-    const filteredElements = nums.filter(item => {
-        if (uniqueElements.has(item)) {
-            uniqueElements.delete(item);
-            return false;
-        } else {
+    let store = new Set();
+    for (const num of nums) {
+        if (store.has(num)) {
             return true;
+        } else {
+            store.add(num);
         }
-    });
-    return filteredElements.length === 0 ? false : true
+    }
+    
+    return false;
 };
