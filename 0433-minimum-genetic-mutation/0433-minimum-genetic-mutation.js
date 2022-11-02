@@ -5,44 +5,43 @@
  * @return {number}
  */
 var minMutation = function(start, end, bank) {
-    var set = new Set(bank);
-    var visited = new Set();
-    visited.add(start);
-    if(!set.has(end))   return -1;
-    var count = dfs(start);
+    const allowed = new Set(bank)
+    const seen = new Set([start])
+    const genes = ['A', 'C', 'G', 'T']
     
-    if(count === Number.MAX_VALUE)  return -1;
-    return count;
-    
-    //@ return min_path
-    
-    function dfs(a){
-        if(oneM(a,end)) return 1;
-        
-        var min = Number.MAX_VALUE;
-        
-        set.forEach((b)=>{
-            if(oneM(a,b) && !visited.has(b)){
-                visited.add(b);
-                var c = dfs(b);
-                if(c!==Number.MAX_VALUE){
-                    min = Math.min(min,c+1);
-                }
-                visited.delete(b);
+    const getNeighbors = node => {
+        const res = []
+        for (const gene of genes) {
+            for (let i = 0; i < node.length; i++) {
+               const neighbor = node.slice(0, i) + gene + node.slice(i + 1)
+               if (!seen.has(neighbor) && allowed.has(neighbor)) {
+                   res.push(neighbor)
+                   seen.add(neighbor)
+               }
             }
-        });
-        
-        return min;
-    }
-};
-
-
-var oneM = function(a,b){
-    var count = 0;
-    for(var i =0;i<a.length;i++){
-        if(a[i]!==b[i]){
-            count++;
         }
+            
+        return res
     }
-    return count===1;
+    
+    let steps = 0
+    const queue = [start]
+    
+    while (queue.length) {
+        const {length} = queue
+        
+        for (let i = 0; i < length; i++) {
+            const node = queue.shift()
+            
+            if (node === end) {
+                return steps
+            }
+            
+            queue.push(...getNeighbors(node))
+        }
+        
+        steps++
+    }
+    
+    return -1
 };
