@@ -3,22 +3,19 @@
  * @return {number[][]}
  */
 var generate = function(numRows) {
-    if(numRows == 1) return [[1]];
-    if(numRows==2) return [[1], [1, 1]];
-    
-    let result = [[1], [1,1]];
-    
-    for(let i = 2; i < numRows; i++){
-        const arr = [1];
-        const prev = result[i-1];
-        const len = prev.length;
-        for(let j = 0; j<len-1; j++){
-            arr.push(prev[j]+prev[j+1]);
-        }
-        arr.push(1);
-        result.push(arr);
+    var res= [[1],[1,1]];
+    if(numRows <= 1) {
+        return [res[numRows-1]];
     }
-    
-    return result;
-    
+
+    for(var i = 2 ; i < numRows ; i++) {
+        res[i] = [];
+        res[i].push(1);
+        for(var j = 0 ; j < res[i-1].length -1 ; j++) {
+            var sum = res[i-1][j]+res[i-1][j+1]
+            res[i].push(sum);
+        }
+        res[i].push(1);
+    }
+    return res;
 };
